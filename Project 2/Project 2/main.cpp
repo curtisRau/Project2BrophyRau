@@ -43,10 +43,18 @@ double off (double** A, int N) {
     double sum = 0.0;
     for (int i=0; i < N; i++) {
         for (int j=0; (j<N && i!=j); j++) {
-            sum += A[i][j];
+            sum += (A[i][j]) * (A[i][j]);
         }
     }
     return sqrt(sum);
+}
+
+const double beta = 1.0;             // beta may not be equal to one.  This is a constant in the equation we are trying to solve.
+const double L = 2.0;                // the length over which we are solving.  This probably shouldn't be 2.0.  Something to think about.
+
+// This is the potential
+double V (double rho) {
+    return rho * rho + beta / rho;
 }
 
 
@@ -72,6 +80,11 @@ int main(int argc, const char * argv[]) {
         if (strcmp(argv[i], "-save")==0) {                  // If the "-save" flag is passed to main()
             filename = argv[i+1];                           // The filename should be the next argument passed to main()
         }
+    }
+    
+    // Check in N is valid.  The program ends if N = 0.
+    if (N == 0) {
+        return 0;
     }
     
     // Check if filename is valid
