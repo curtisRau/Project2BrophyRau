@@ -5,3 +5,7 @@
 # QT project files
 *.pro
 *.user
+
+# Useless LaTeX files
+*.log
+*.gz
