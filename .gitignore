@@ -9,3 +9,6 @@
 # Useless LaTeX files
 *.log
 *.gz
+
+# Ben’s QT directory that Curtis doesn’t need.
+build-Project2b-Desktop_Qt_5_5_1_MSVC2013_64bit-Debug/
