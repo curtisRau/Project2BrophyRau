@@ -61,8 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				B91FA6441C764EEE0064D26F /* main.cpp */,
-				B91FA64B1C765B6B0064D26F /* functions.cpp */,
 				B91FA64C1C765B6B0064D26F /* functions.hpp */,
+				B91FA64B1C765B6B0064D26F /* functions.cpp */,
 			);
 			path = "Project 2";
 			sourceTree = "<group>";
@@ -243,6 +243,7 @@
 				B91FA64A1C764EEE0064D26F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
