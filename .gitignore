@@ -1,0 +1,7 @@
+# File extensions that should not be included
+# Xcode config files
+*.xcodeproj
+
+# QT project files
+*.pro
+*.user
