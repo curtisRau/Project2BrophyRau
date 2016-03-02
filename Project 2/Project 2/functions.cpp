@@ -138,7 +138,8 @@ namespace function {
         return A;
     }
     
-    
+    // Functions specific to Jacobi's Method
+    /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     double frobeniusNorm (double** A, unsigned int m, unsigned int n) {
         double sum = 0.0;
         for (int i = 0; i<m; i++) {         // The order of this sum will matter.  row-column indexed?
@@ -150,7 +151,7 @@ namespace function {
     }
     
     
-    //NEED TO CHECK THIS FUNCTION.
+    //
     void jacobiRotation (double** A, unsigned int p, unsigned int q, float theta) {
         double s = sin(theta);
         double c = cos(theta);
@@ -158,7 +159,41 @@ namespace function {
         A[p][p] = (c*c) * A[p][p] - (s*c) * A[p][q] - (s*c) * A[q][p] + (s*s) * A[q][q];
         A[p][q] = (s*c) * A[p][p] + (c*c) * A[p][q] - (s*s) * A[q][p] - (s*c) * A[q][q];
         A[q][p] = (s*c) * A[p][p] - (s*s) * A[p][q] + (c*c) * A[q][p] - (s*c) * A[q][q];
-        A[q][q] = (s*s) * A[p][p] - (s*c) * A[p][q] - (s*c) * A[q][p] + (c*c) * A[q][q];
+        A[q][q] = (s*s) * A[p][p] + (s*c) * A[p][q] + (s*c) * A[q][p] + (c*c) * A[q][q];
     }
+    
+    // This function is not vectorizable as stands, but probably could be.
+    double off (double** A, unsigned int n) {
+        // The square root of the sum of the squares of the off diagonal elements.
+        double sum = 0.0;
+        for (int i=0; i < n; i++) {
+            for (int j=0; (j<n && i!=j); j++) {
+                sum += (A[i][j]) * (A[i][j]);
+            }
+        }
+        return sqrt(sum);
+    }
+    
+    // This function determines the indicies of the largest absolute valued element of a matrix.
+    // A = the matrix
+    // m is the number of rows of A, n is the number of columns of A.
+    // p is the row, q is the column of the largest absolute valued element.
+    //unsigned int x;
+//    unsigned int y;
+//    unsigned int *p = &x;
+//    unsigned int *q = &y;
+    void indiciesOfMaxElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
+        double max = 0.0;
+        for (unsigned int i = 0; i<m; i++) {
+            for (unsigned int j = 0; j<n; j++) {
+                if ( fabs(A[i][j]) > max ) {
+                    max = fabs(A[i][j]);
+                    *p = i;
+                    *q = j;
+                }
+            }
+        }
+    }
+
     
 }

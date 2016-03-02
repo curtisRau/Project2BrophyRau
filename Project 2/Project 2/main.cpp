@@ -11,39 +11,7 @@
 //#include "math.h"       // Need to change?
 #include "functions.hpp"        //
 
-//void jacobiMethod () {
-//
-//
-//
-//
-//}
 
-
-////////////////////////////////////////
-//
-//
-////////////////////////////////////////
-
-
-//double offDiagonalSumOfSquares (double** A, double norm) {
-//    int N = 1;
-//    double diagSum = 0.0;
-//    for (int i = 0; i<N; i++) {
-//        diagSum += A[i][i] * A[i][i];
-//    }
-//    return norm - sqrt(diagSum);
-//}
-
-//double off (double** A, int N) {
-//    // The square root of the sum of the squares of the off diagonal elements.
-//    double sum = 0.0;
-//    for (int i=0; i < N; i++) {
-//        for (int j=0; (j<N && i!=j); j++) {
-//            sum += (A[i][j]) * (A[i][j]);
-//        }
-//    }
-//    return sqrt(sum);
-//}
 
 const double beta = 1.0;             // beta may not be equal to one.  This is a constant in the equation we are trying to solve.
 //const double L = 2.0;                // the length over which we are solving.  This probably shouldn't be 2.0.  Something to think about.
@@ -62,7 +30,7 @@ int main(int argc, const char * argv[]) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     int N = 10;
-    double rho0 = 0.000001;             // The starting position, probably 0.0, but 1/0 encountered.
+    double rho0 = 0.000000001;             // The starting position, probably 0.0, but 1/0 encountered.
     double h    = 1;                    // The step length
     double h2 = h*h;                    // Step Length Squared;
     //    double tol;                   // The tolerence
@@ -115,7 +83,7 @@ int main(int argc, const char * argv[]) {
     // Passing vector arguments instead of making calls to the functions
     // that generate the vector arguments allows the following function
     // to be vectorizable.
-    double** A = function::genTridiagMatVectArgsFast(N, a, b, c);
+    double** A = function::genTridiagMatVectArgsExact(N, a, b, c);
     
     delete [] a;
     delete [] b;
@@ -125,6 +93,15 @@ int main(int argc, const char * argv[]) {
     
     function::printMatrix(A, N, N);
     
+    
+//    unsigned int x;
+//    unsigned int y;
+//    unsigned int *p = &x;
+//    unsigned int *q = &y;
+//    
+//    function::indiciesOfMaxElement(A, 10, 10, p, q);
+//    
+//    std::cout << "row = " << *p << "column = " << *q << "\r";
     
     
     // Implement Jacobi's Method (Ben's Section)
