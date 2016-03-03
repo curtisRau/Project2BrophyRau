@@ -169,11 +169,11 @@ namespace function {
     }
     
     // This function is not vectorizable as stands, but probably could be.
-    double off (double** A, unsigned int n) {
+    double off (double** A, unsigned int matrixSize) {
         // The square root of the sum of the squares of the off diagonal elements.
         double sum = 0.0;
-        for (int i=0; i < n; i++) {
-            for (int j=0; (j<n && i!=j); j++) {
+        for (int i=0; i < matrixSize; i++) {
+            for (int j=0; (j<matrixSize && i!=j); j++) {
                 sum += (A[i][j]) * (A[i][j]);
             }
         }

@@ -98,9 +98,11 @@ int main(int argc, const char * argv[]) {
     unsigned int y;
     unsigned int* p = &x;
     unsigned int* q = &y;
-    double theta;
+    double theta = 0.0;
+    unsigned int maxRecursion = 100;        // Maximum number of times for loop will run.
+    double minTheta = 0.0000001;
     
-    for (unsigned int i = 0; i<10; i++) {
+    for (unsigned int i = 0; (i < maxRecursion) or (theta > minTheta); i++) {
         function::indiciesOfMaxOffDiagnalElement(A, N, N, p, q);
         theta = atan(
                      (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
@@ -109,7 +111,8 @@ int main(int argc, const char * argv[]) {
         
         function::printMatrix(A, N, N);
         
-        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r";
+        std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
+        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
     }
     
     
