@@ -10,6 +10,7 @@
 //#include <fstream>              // for working with files.  Is this necessary?
 #include "math.h"               // for tangent function in Jacobi method implementation
 #include "functions.hpp"        //
+#include "time.h"
 
 
 
@@ -67,7 +68,7 @@ int main(int argc, const char * argv[]) {
     //        }
     //    }
     
-    const clock_t begin_time = std::clock();
+    const clock_t begin_time = clock();
     std::cout << "Total computation time [s] = " << float( clock () - begin_time ) /  CLOCKS_PER_SEC << "\r";
     
     // Generate the A matrix which the Jacobi Method will diagonalize
@@ -102,7 +103,7 @@ int main(int argc, const char * argv[]) {
     unsigned int maxRecursion = 100;        // Maximum number of times for loop will run.
     double minTheta = 0.0000001;
     
-    for (unsigned int i = 0; (i < maxRecursion) or (theta > minTheta); i++) {
+    for (unsigned int i = 0; (i < maxRecursion) || (theta > minTheta); i++) {
         function::indiciesOfMaxOffDiagnalElement(A, N, N, p, q);
         theta = atan(
                      (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
