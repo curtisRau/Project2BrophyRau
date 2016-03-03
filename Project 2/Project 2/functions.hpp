@@ -22,8 +22,8 @@ namespace function {
     double** genTridiagMatVectArgsExact (unsigned int n, double* a, double* b, double* c);
     double** genTridiagMatVectArgsFast (unsigned int n, double* a, double* b, double* c);
     double frobeniusNorm (double** A, unsigned int m, unsigned int n);
-    void jacobiRotation (double** A, unsigned int p, unsigned int q, float theta);
-    void indiciesOfMaxElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q);
+    void jacobiRotation (double** A, unsigned int matrixSize, unsigned int i, unsigned int j, float theta);
+    void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q);
     
     // Ben's Functions:
 };

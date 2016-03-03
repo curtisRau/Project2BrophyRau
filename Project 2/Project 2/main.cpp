@@ -8,7 +8,7 @@
 //#include <string>
 #include <iostream>
 //#include <fstream>              // for working with files.  Is this necessary?
-//#include "math.h"       // Need to change?
+#include "math.h"               // for tangent function in Jacobi method implementation
 #include "functions.hpp"        //
 
 
@@ -67,11 +67,12 @@ int main(int argc, const char * argv[]) {
     //        }
     //    }
     
-    // Setup the "A" Matrix (Curtis's Section)
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    
     const clock_t begin_time = std::clock();
+    std::cout << "Total computation time [s] = " << float( clock () - begin_time ) /  CLOCKS_PER_SEC << "\r";
+    
+    // Generate the A matrix which the Jacobi Method will diagonalize
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     
     double* a = function::generateConstantVector(N-1, -1/h2);
     double* c = function::generateConstantVector(N-1, -1/h2);
@@ -89,24 +90,27 @@ int main(int argc, const char * argv[]) {
     delete [] b;
     delete [] c;
     
-    std::cout << "Total computation time [s] = " << float( clock () - begin_time ) /  CLOCKS_PER_SEC << "\r";
     
-    function::printMatrix(A, N, N);
-    
-    
-//    unsigned int x;
-//    unsigned int y;
-//    unsigned int *p = &x;
-//    unsigned int *q = &y;
-//    
-//    function::indiciesOfMaxElement(A, 10, 10, p, q);
-//    
-//    std::cout << "row = " << *p << "column = " << *q << "\r";
-    
-    
-    // Implement Jacobi's Method (Ben's Section)
+    // Implement the Jacobi Method
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    unsigned int x;
+    unsigned int y;
+    unsigned int* p = &x;
+    unsigned int* q = &y;
+    double theta;
+    
+    for (unsigned int i = 0; i<10; i++) {
+        function::indiciesOfMaxOffDiagnalElement(A, N, N, p, q);
+        theta = atan(
+                     (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
+                     ) / 2.0;
+        function::jacobiRotation(A, N, *p, *q, theta);
+        
+        function::printMatrix(A, N, N);
+        
+        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r";
+    }
     
     
     

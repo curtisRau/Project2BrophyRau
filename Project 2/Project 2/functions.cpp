@@ -150,16 +150,22 @@ namespace function {
         return sqrt(sum);
     }
     
-    
     //
-    void jacobiRotation (double** A, unsigned int p, unsigned int q, float theta) {
+    void jacobiRotation (double** A, unsigned int matrixSize, unsigned int i, unsigned int j, float theta) {
         double s = sin(theta);
         double c = cos(theta);
         
-        A[p][p] = (c*c) * A[p][p] - (s*c) * A[p][q] - (s*c) * A[q][p] + (s*s) * A[q][q];
-        A[p][q] = (s*c) * A[p][p] + (c*c) * A[p][q] - (s*s) * A[q][p] - (s*c) * A[q][q];
-        A[q][p] = (s*c) * A[p][p] - (s*s) * A[p][q] + (c*c) * A[q][p] - (s*c) * A[q][q];
-        A[q][q] = (s*s) * A[p][p] + (s*c) * A[p][q] + (s*c) * A[q][p] + (c*c) * A[q][q];
+        A[i][i] = (c*c) * A[i][i] - (2*s*c) * A[i][j] + (s*s) * A[j][j];
+        A[j][j] = (s*s) * A[i][i] + (2*s*c) * A[i][j] + (c*c) * A[j][j];
+        A[i][j] = (c*c - s*s) * A[i][j] + (s*c) * (A[i][i] - A[j][j]);
+        A[j][i] = A[i][j];
+        
+        for (unsigned int k = 0; (k < matrixSize) and (k != i) and (k != j); k++) {
+            A[i][k] = c * A[i][k] - s * A[j][k];
+            A[k][i] = A[i][k];
+            A[j][k] = s * A[i][k] + c * A[j][k];
+            A[k][j] = A[j][k];
+        }
     }
     
     // This function is not vectorizable as stands, but probably could be.
@@ -174,7 +180,7 @@ namespace function {
         return sqrt(sum);
     }
     
-    // This function determines the indicies of the largest absolute valued element of a matrix.
+    // This function determines the indicies of the largest absolute valued, off diagonal, element of a matrix.
     // A = the matrix
     // m is the number of rows of A, n is the number of columns of A.
     // p is the row, q is the column of the largest absolute valued element.
@@ -182,10 +188,10 @@ namespace function {
 //    unsigned int y;
 //    unsigned int *p = &x;
 //    unsigned int *q = &y;
-    void indiciesOfMaxElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
+    void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
         double max = 0.0;
         for (unsigned int i = 0; i<m; i++) {
-            for (unsigned int j = 0; j<n; j++) {
+            for (unsigned int j = 0; (j<n) and (j != i); j++) {
                 if ( fabs(A[i][j]) > max ) {
                     max = fabs(A[i][j]);
                     *p = i;
@@ -194,6 +200,5 @@ namespace function {
             }
         }
     }
-
     
 }
