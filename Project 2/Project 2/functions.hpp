@@ -14,7 +14,6 @@
 #endif
 
 namespace function {
-    // Curtis's Functions:
     void printMatrix (double** A, unsigned int m, unsigned int n);
     double* generateConstantVector (unsigned int length, double val);
     double** genTridiagMatConstArgsExact (unsigned int n, double a, double b, double c);
@@ -25,6 +24,5 @@ namespace function {
     void jacobiRotation (double** A, unsigned int matrixSize, unsigned int i, unsigned int j, float theta);
     double off (double** A, unsigned int matrixSize);
     void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q);
-    
-    // Ben's Functions:
+    double minDiagonalElement (double** A, unsigned int matrixSize);
 };

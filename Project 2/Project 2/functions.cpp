@@ -184,10 +184,6 @@ namespace function {
     // A = the matrix
     // m is the number of rows of A, n is the number of columns of A.
     // p is the row, q is the column of the largest absolute valued element.
-    //unsigned int x;
-//    unsigned int y;
-//    unsigned int *p = &x;
-//    unsigned int *q = &y;
     void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
         double max = 0.0;
         for (unsigned int i = 0; i<m; i++) {
@@ -199,6 +195,16 @@ namespace function {
                 }
             }
         }
+    }
+    
+    double minDiagonalElement (double** A, unsigned int matrixSize) {
+        double min = A[0][0];
+        for (unsigned int i = 1; i < matrixSize; i++) {
+            if (A[i][i] < min) {
+                min = A[i][i];
+            }
+        }
+        return min;
     }
     
 }
