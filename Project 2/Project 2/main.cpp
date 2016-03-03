@@ -61,13 +61,13 @@ int main(int argc, const char * argv[]) {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-//    int N;
-//    double tol;                   // The tolerence
+    int N;
+    double tol;                   // The tolerence
 //    bool PLOT = false;
 //    bool SAVE = false;
 //    const char* filename;
-//    for (int i=0; i<argc; i++) {
-//        if (strcmp(argv[i], "-N")==0) {N = std::stoi(argv[i+1]);}
+    for (int i=0; i<argc; i++) {
+        if (strcmp(argv[i], "-N")==0) {N = std::stoi(argv[i+1]);}
         
 //        if (strcmp(argv[i], "-t")==0) {tol = std::stoi(argv[i+1]);}
         
@@ -89,7 +89,7 @@ int main(int argc, const char * argv[]) {
 //        } else {                                    // If the file can be opened...
 //            SAVE = true;
 //        }
-//    }
+    }
     
     // Implement Jacobi's Method
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
