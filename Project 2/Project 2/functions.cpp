@@ -13,8 +13,8 @@ namespace function {
     
     // A function to print a matrix for debugging purposes
     void printMatrix (double** A, unsigned int m, unsigned int n) {
-        for (int i = 0; i<m; i++) {
-            for (int j = 0; j<n; j++) {
+        for (unsigned int i = 0; i<m; i++) {
+            for (unsigned int j = 0; j<n; j++) {
                 std::cout << A[i][j] << "\t\t\t";
             }
             std::cout << "\r";
@@ -26,7 +26,7 @@ namespace function {
     // with all values of value "val".  This function is vectorizable.
     double* generateConstantVector (unsigned int length, double val) {
         double* vec = new double[length];
-        for (int i = 0; i<length; i++) {
+        for (unsigned int i = 0; i<length; i++) {
             vec[i] = val;
         }
         return vec;
@@ -41,10 +41,10 @@ namespace function {
     // it generates a matrix exactly how it advertizes.
     double** genTridiagMatConstArgsExact (unsigned int n, double a, double b, double c) {
         double** A = new double*[n];
-        for(int i = 0; i < n; i++) {
+        for(unsigned int i = 0; i < n; i++) {
         
             A[i] = new double[n];
-            for (int j = 0; j<n; j++) {
+            for (unsigned int j = 0; j<n; j++) {
         
                 if (j == (i-1)) {
                     A[i][j] = a;
@@ -73,7 +73,7 @@ namespace function {
         A[0][0]    = b;
         A[0][1]    = c;
         
-        for(int i = 1; i < n-1; i++) {
+        for(unsigned int i = 1; i < n-1; i++) {
             A[i]      = new double[n];
             A[i][i-1] = a;
             A[i][i]   = b;
@@ -95,10 +95,10 @@ namespace function {
     // it generates a matrix exactly how it advertizes.
     double** genTridiagMatVectArgsExact (unsigned int n, double* a, double* b, double* c) {
         double** A = new double*[n];
-        for(int i = 0; i < n; i++) {
+        for(unsigned int i = 0; i < n; i++) {
             
             A[i] = new double[n];
-            for (int j = 0; j<n; j++) {
+            for (unsigned int j = 0; j<n; j++) {
                 
                 if (j == (i-1)) {
                     A[i][j] = a[i];
@@ -124,7 +124,7 @@ namespace function {
         A[0][0]    = b[0];
         A[0][1]    = c[0];
         
-        for(int i = 1; i < n-1; i++) {
+        for(unsigned int i = 1; i < n-1; i++) {
             A[i]      = new double[n];
             A[i][i-1] = a[i];
             A[i][i]   = b[i];
@@ -142,8 +142,8 @@ namespace function {
     /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     double frobeniusNorm (double** A, unsigned int m, unsigned int n) {
         double sum = 0.0;
-        for (int i = 0; i<m; i++) {         // The order of this sum will matter.  row-column indexed?
-            for (int j = 0; j<n; j++) {
+        for (unsigned int i = 0; i<m; i++) {         // The order of this sum will matter.  row-column indexed?
+            for (unsigned int j = 0; j<n; j++) {
                 sum += A[i][j] * A[i][j];
             }
         }
@@ -160,7 +160,7 @@ namespace function {
         A[i][j] = (c*c - s*s) * A[i][j] + (s*c) * (A[i][i] - A[j][j]);
         A[j][i] = A[i][j];
         
-        for (unsigned int k = 0; (k < matrixSize) and (k != i) and (k != j); k++) {
+        for (unsigned int k = 0; (k < matrixSize) && (k != i) && (k != j); k++) {
             A[i][k] = c * A[i][k] - s * A[j][k];
             A[k][i] = A[i][k];
             A[j][k] = s * A[i][k] + c * A[j][k];
@@ -172,8 +172,8 @@ namespace function {
     double off (double** A, unsigned int matrixSize) {
         // The square root of the sum of the squares of the off diagonal elements.
         double sum = 0.0;
-        for (int i=0; i < matrixSize; i++) {
-            for (int j=0; (j<matrixSize && i!=j); j++) {
+        for (unsigned int i=0; i < matrixSize; i++) {
+            for (unsigned int j=0; (j<matrixSize && i!=j); j++) {
                 sum += (A[i][j]) * (A[i][j]);
             }
         }
@@ -187,7 +187,7 @@ namespace function {
     void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
         double max = 0.0;
         for (unsigned int i = 0; i<m; i++) {
-            for (unsigned int j = 0; (j<n) and (j != i); j++) {
+            for (unsigned int j = 0; (j<n) && (j != i); j++) {
                 if ( fabs(A[i][j]) > max ) {
                     max = fabs(A[i][j]);
                     *p = i;

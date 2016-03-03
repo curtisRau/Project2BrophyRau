@@ -11,6 +11,7 @@
 #include "math.h"               // for tangent function in Jacobi method implementation
 #include <limits>               // to get the maximum precision of a float or double.
 #include "functions.hpp"        //
+#include "time.h"
 
 typedef std::numeric_limits< double > dbl;
 
@@ -111,7 +112,7 @@ int main(int argc, const char * argv[]) {
     unsigned int maxRecursion = 1000;        // Maximum number of times for loop will run.
     double minTheta = 0.0000001;
     
-    for (unsigned int i = 0; (i < maxRecursion) or (theta > minTheta); i++) {
+    for (unsigned int i = 0; (i < maxRecursion) || (theta > minTheta); i++) {
         function::indiciesOfMaxOffDiagnalElement(A, N, N, p, q);
         theta = atan(
                      (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
