@@ -12,3 +12,5 @@
 
 # Ben’s QT directory that Curtis doesn’t need.
 build-Project2b-Desktop_Qt_5_5_1_MSVC2013_64bit-Debug/
+build-Project2-Desktop_Qt_5_5_1_MSVC2012_32bit-Debug/
+build-Project2-Desktop_Qt_5_5_1_MSVC2013_64bit-Release/
