@@ -184,12 +184,12 @@ namespace function {
     // A = the matrix
     // m is the number of rows of A, n is the number of columns of A.
     // p is the row, q is the column of the largest absolute valued element.
-    void indiciesOfMaxOffDiagnalElement (double** A, unsigned int m, unsigned int n, unsigned int* p, unsigned int* q) {
-        double max = 0.0;
-        for (unsigned int i = 0; i<m; i++) {
-            for (unsigned int j = 0; (j<n) && (j != i); j++) {
-                if ( fabs(A[i][j]) > max ) {
-                    max = fabs(A[i][j]);
+    void maxOffDiagnalElement (double** A, unsigned int matrixSize, double* value, unsigned int* p, unsigned int* q) {
+        *value = 0.0;
+        for (unsigned int i = 0; i<matrixSize; i++) {
+            for (unsigned int j = 0; (j<matrixSize) && (j != i); j++) {
+                if ( fabs(A[i][j]) > *value ) {
+                    *value = fabs(A[i][j]);
                     *p = i;
                     *q = j;
                 }

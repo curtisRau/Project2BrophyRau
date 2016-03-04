@@ -15,12 +15,18 @@
 
 typedef std::numeric_limits< double > dbl;
 
-
 const double beta = 0.0;//1.44;               // units [eVnm].  This is a constant in the equation we are trying to solve.
 
 // This is the potential
 double V (double rho) {
     return rho * rho;// + beta / rho;
+}
+
+double eigenvalue2Energy (double eigenvalue) {
+    double Me = 0;
+    double k = 0;
+    double hBar = 0;
+    return (hBar * sqrt(k) * eigenvalue) / (2 * sqrt(Me));
 }
 
 
@@ -36,7 +42,7 @@ int main(int argc, const char * argv[]) {
     const unsigned int N = 1000;
     const double rhoMin = 0.0;//00000001;             // The starting position, probably 0.0, but 1/0 encountered.
     const double rhoMax = 200;
-    const double h    = (rhoMax - rhoMin) / N;                    // The step length
+    const double h    = (rhoMax - rhoMin) / N;                    // The step length.  N may be wrong? N -> N-2 ?
     const double h2 = h*h;                    // Step Length Squared;
     //    double tol;                   // The tolerence
     //    bool PLOT = false;
@@ -72,12 +78,12 @@ int main(int argc, const char * argv[]) {
     //        }
     //    }
     
-    //const clock_t begin_time = std::clock();
-    //std::cout << "Total computation time [s] = " << float( clock () - begin_time ) /  CLOCKS_PER_SEC << "\r";
+    
     
     // Generate the A matrix which the Jacobi Method will diagonalize
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    const clock_t begin_time = std::clock();
     
     double* a = function::generateConstantVector(N-1, -1/h2);
     double* c = function::generateConstantVector(N-1, -1/h2);
@@ -95,36 +101,30 @@ int main(int argc, const char * argv[]) {
     delete [] b;
     delete [] c;
     
-    //function::printMatrix(A, N, N);
-    
-    std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
-    std::cout << "Smallest Eigenvalue =" << function::minDiagonalElement(A, N);
-    std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
-    
     // Implement the Jacobi Method
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    unsigned int x;
-    unsigned int y;
+    unsigned int  x;
+    unsigned int  y;
     unsigned int* p = &x;
     unsigned int* q = &y;
-    double theta = 0.0;
-    unsigned int maxRecursion = 1000;        // Maximum number of times for loop will run.
-    double minTheta = 0.0000001;
+    double        z;
+    double*       maxOffDiagonalValue = &z;
+    double        tolerance = 0.0001;
+    double        theta;
+    unsigned int  maxRecursion = 1000;        // Maximum number of times for loop will run.
+    unsigned int  numberOfItterations = 0;
     
-    for (unsigned int i = 0; (i < maxRecursion) || (theta > minTheta); i++) {
-        function::indiciesOfMaxOffDiagnalElement(A, N, N, p, q);
-        theta = atan(
-                     (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
-                     ) / 2.0;
+    function::maxOffDiagnalElement(A, N, maxOffDiagonalValue, p, q);
+    for (unsigned int* i = &numberOfItterations; (*i < maxRecursion) && (tolerance < *maxOffDiagonalValue); *i += 1) {
+        function::maxOffDiagnalElement(A, N, maxOffDiagonalValue, p, q);
+        theta = atan((2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])) / 2.0;
         function::jacobiRotation(A, N, *p, *q, theta);
-        
-        //function::printMatrix(A, N, N);
-        
-        std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
-        std::cout << "Smallest Eigenvalue =" << function::minDiagonalElement(A, N);
-        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
     }
+    
+    std::cout << "Total computation time [s] = " << float( clock () - begin_time ) /  CLOCKS_PER_SEC << "\r";
+    std::cout << "Number of itterations performed =" << numberOfItterations << "\r";
+    std::cout << "Smallest Eigenvalue =" << function::minDiagonalElement(A, N) << "\r";
     
     
     // Clean Up.
