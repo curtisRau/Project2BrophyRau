@@ -11,15 +11,14 @@
 #include "math.h"               // for tangent function in Jacobi method implementation
 #include "functions.hpp"        //
 #include "time.h"
-
-
+#include "lib.h"
 
 const double beta = 1.0;             // beta may not be equal to one.  This is a constant in the equation we are trying to solve.
 //const double L = 2.0;                // the length over which we are solving.  This probably shouldn't be 2.0.  Something to think about.
 
 //// This is the potential
 double V (double rho) {
-    return rho * rho + beta / rho;
+    return rho * rho; //should just be harmonic oscillator potential
 }
 
 
@@ -86,9 +85,13 @@ int main(int argc, const char * argv[]) {
     // that generate the vector arguments allows the following function
     // to be vectorizable.
     double** A = function::genTridiagMatVectArgsExact(N, a, b, c);
+    double** B = A;
     
-    delete [] a;
-    delete [] b;
+    function::printMatrix(A, N, N);
+    function::printMatrix(B, N, N);
+
+    //delete [] a;
+    //delete [] b;
     delete [] c;
     
     
@@ -110,12 +113,23 @@ int main(int argc, const char * argv[]) {
                      ) / 2.0;
         function::jacobiRotation(A, N, *p, *q, theta);
         
-        function::printMatrix(A, N, N);
+        //function::printMatrix(A, N, N);
         
-        std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
-        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
+//        std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
+//        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
     }
-    
+
+
+        function::printMatrix(A, N, N);
+        //make identity matrix for tqli
+        double* ones = function::generateConstantVector(N, 1);
+        double* zeros = function::generateConstantVector(N-1, 0);
+        double** z  = function::genTridiagMatVectArgsExact(N, zeros, ones, zeros);
+
+        tqli(b,a,N,z); //householder method
+
+        function::printVector(b,N);
+
     
     
     return 0;
