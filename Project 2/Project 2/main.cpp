@@ -112,11 +112,6 @@ int main(int argc, const char * argv[]) {
                      (2*A[*p][*q]) / (A[*q][*q] - A[*p][*p])
                      ) / 2.0;
         function::jacobiRotation(A, N, *p, *q, theta);
-        
-        //function::printMatrix(A, N, N);
-        
-//        std::cout << "Sum of off diagonal matrix elements = " << function::off(A, N) << "\r";
-//        std::cout << "\t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \t -- \r\r\r";
     }
 
 

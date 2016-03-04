@@ -29,13 +29,6 @@ namespace function {
             }
         }
 
-    void printVector (double* d, unsigned int n) {
-        for (unsigned int i = 0; i<n; i++) {
-                std::cout << d[i] << " ";
-            }
-        }
-
-
     
     
     // Generate a Constant Vector of length "length", initialized
